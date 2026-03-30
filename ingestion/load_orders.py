@@ -2,7 +2,6 @@ from pathlib import Path
 import pandas as pd
 import duckdb
 
-
 def main() -> None:
     csv_path = Path("data/raw/orders_2026_03_23.csv")
     db_path = Path("warehouse/local.duckdb")
@@ -47,7 +46,6 @@ def main() -> None:
     print(result)
 
     conn.close()
-
 
 if __name__ == "__main__":
     main()
