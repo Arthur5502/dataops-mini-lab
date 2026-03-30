@@ -8,14 +8,12 @@ import pandas as pd
 
 load_dotenv()
 
-
 @activity.defn
 def generate_csv_activity() -> str:
     from app.generate_fake_csv import main as generate_csv_main
 
     generate_csv_main()
     return "data/raw/orders_fake_10mb.csv"
-
 
 @activity.defn
 def load_csv_to_mongodb_activity(csv_path: str) -> str:
@@ -46,7 +44,6 @@ def load_csv_to_mongodb_activity(csv_path: str) -> str:
     client.close()
 
     return f"Inserted {inserted_count} documents into {database_name}.{collection_name}"
-
 
 @activity.defn
 def aggregate_orders_activity() -> list[dict]:

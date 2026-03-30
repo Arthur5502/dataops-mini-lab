@@ -1,5 +1,4 @@
 from __future__ import annotations
-
 from datetime import timedelta
 from temporalio import workflow
 
@@ -9,7 +8,6 @@ with workflow.unsafe.imports_passed_through():
         generate_csv_activity,
         load_csv_to_mongodb_activity,
     )
-
 
 @workflow.defn
 class OrdersPipelineWorkflow:

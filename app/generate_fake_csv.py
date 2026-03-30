@@ -7,7 +7,6 @@ import random
 TARGET_SIZE_MB = 10
 TARGET_SIZE_BYTES = TARGET_SIZE_MB * 1024 * 1024
 
-
 def main() -> None:
     fake = Faker("pt_BR")
     output_path = Path("data/raw/orders_fake_10mb.csv")
