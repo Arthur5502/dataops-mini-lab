@@ -1,0 +1,70 @@
+from __future__ import annotations
+import csv
+from pathlib import Path
+from faker import Faker
+import random
+
+TARGET_SIZE_MB = 10
+TARGET_SIZE_BYTES = TARGET_SIZE_MB * 1024 * 1024
+
+
+def main() -> None:
+    fake = Faker("pt_BR")
+    output_path = Path("data/raw/orders_fake_10mb.csv")
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    headers = [
+        "order_id",
+        "customer_id",
+        "customer_name",
+        "customer_email",
+        "city",
+        "state",
+        "order_ts",
+        "amount",
+        "status",
+        "payment_method",
+        "product_category",
+    ]
+
+    statuses = ["delivered", "processing", "cancelled", "returned"]
+    payment_methods = ["credit_card", "pix", "boleto", "debit_card"]
+    categories = ["electronics", "books", "fashion", "groceries", "home"]
+
+    row_count = 0
+
+    with output_path.open("w", newline="", encoding="utf-8") as file:
+        writer = csv.writer(file)
+        writer.writerow(headers)
+
+        while True:
+            row_count += 1
+            writer.writerow(
+                [
+                    row_count,
+                    random.randint(1000, 999999),
+                    fake.name(),
+                    fake.email(),
+                    fake.city(),
+                    fake.estado_sigla(),
+                    fake.date_time_between(start_date="-90d", end_date="now").strftime("%Y-%m-%d %H:%M:%S"),
+                    round(random.uniform(10, 5000), 2),
+                    random.choice(statuses),
+                    random.choice(payment_methods),
+                    random.choice(categories),
+                ]
+            )
+
+            if row_count % 5000 == 0:
+                file.flush()
+                if output_path.stat().st_size >= TARGET_SIZE_BYTES:
+                    break
+
+    size_mb = output_path.stat().st_size / (1024 * 1024)
+    print(f"CSV generated successfully: {output_path}")
+    print(f"Rows generated: {row_count}")
+    print(f"Approximate file size: {size_mb:.2f} MB")
+
+
+if __name__ == "__main__":
+    main()

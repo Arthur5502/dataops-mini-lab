@@ -6,3 +6,6 @@ target/
 dbt_packages/
 .ipynb_checkpoints/
 .DS_Store
+.env
+data/raw/*.csv
+temporal.db

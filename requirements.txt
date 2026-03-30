@@ -1,0 +1,6 @@
+pandas
+faker
+temporalio
+pymongo
+python-dotenv
+duckdb
